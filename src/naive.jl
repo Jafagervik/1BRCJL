@@ -14,12 +14,18 @@ function process_data(filepath::String)
             if haskey(stats, city)
                 city_stats = stats[city]
                 # ifelse is faster than min/max
-                city_stats["min"] = ifelse(temp < city_stats["min"], temp, city_stats["min"])
-                city_stats["max"] = ifelse(temp > city_stats["max"], temp, city_stats["max"])
+                city_stats["min"] = ifelse(
+                    temp < city_stats["min"], temp, city_stats["min"]
+                )
+                city_stats["max"] = ifelse(
+                    temp > city_stats["max"], temp, city_stats["max"]
+                )
                 city_stats["sum"] += temp
                 city_stats["count"] += 1
             else
-                stats[city] = Dict("min" => temp, "max" => temp, "sum" => temp, "count" => 1)
+                stats[city] = Dict(
+                    "min" => temp, "max" => temp, "sum" => temp, "count" => 1
+                )
             end
         end
     end
@@ -38,5 +44,5 @@ end
 
 if abspath(PROGRAM_FILE) == @__FILE__
     filepath = !isempty(ARGS) ? "weather_stations.txt" : ARGS[1]
-    @time process_data(filepath) |> print_stats
+    @time print_stats(process_data(filepath))
 end
