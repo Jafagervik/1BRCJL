@@ -40,6 +40,7 @@ function process_data(filepath::String)
         end
 
         for row in vecvec
+            findall(row, 0x3b) == 0 && continue
             city, temp_str = split(row, ';')
             temp = parse(Float32, temp_str)
 
